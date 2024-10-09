@@ -11,7 +11,7 @@ Nicholas Gebran - 20149284
 
 ## writeRaw(String, int, int)
 
-[Lien du test - Ligne 502](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 502](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste que l'overload sur la méthode writeRaw avec les paramètres String, Int et Int, découpe la slice attendue de notre String lors de son écriture.
 
@@ -27,7 +27,7 @@ Teste que l'overload sur la méthode writeRaw avec les paramètres String, Int e
 
 ## writeRaw(char[], int, int)
 
-[Lien du test - Ligne 529](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 529](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste que l'overload sur la méthode writeRaw avec char[], Int i et Int j, écris les j prochains charactères de l'array à partir de l'indice i.
 
@@ -43,7 +43,7 @@ Teste que l'overload sur la méthode writeRaw avec char[], Int i et Int j, écri
 
 ## writeRaw(char)
 
-[Lien du test - Ligne 556](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 556](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste que l'overload sur la méthode writeRaw avec le paramètre unique char. Devrait écrire uniquement le charactère passé en paramètre.
 
@@ -59,7 +59,7 @@ Teste que l'overload sur la méthode writeRaw avec le paramètre unique char. De
 
 ## writeRawValue(String, int, int)
 
-[Lien du test - Ligne 581](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 581](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste que l'overload sur la méthode writeRawValue avec les paramètres String, Int et Int, découpe la slice attendue de notre String lors de son écriture.
 
@@ -75,7 +75,7 @@ Teste que l'overload sur la méthode writeRawValue avec les paramètres String, 
 
 ## writeRawValue(char[], int , int)
 
-[Lien du test - Ligne 608](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 608](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste que l'overload sur la méthode writeRawValue avec char[], Int i et Int j, écris les j prochains charactères de l'array à partir de l'indice i.
 
@@ -91,7 +91,7 @@ Teste que l'overload sur la méthode writeRawValue avec char[], Int i et Int j, 
 
 ## writeTree(TreeNode)
 
-[Lien du test - Ligne 635](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 635](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste la branche de writeTree(TreeNode) quand delegateCopyMethods est faux et que le TreeNode passé en paramètre est null. Cette branche utilise writeTree récursivement. Ce cas spécifique de writeTree() n'était pas testé précédemment.
 
@@ -107,7 +107,7 @@ Teste la branche de writeTree(TreeNode) quand delegateCopyMethods est faux et qu
 
 ## writeTree(TreeNode)
 
-[Lien du test - Ligne 657](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 657](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste la branche de writeTree(TreeNode) quand delegateCopyMethods est vrai. Cette branche utilise writeTree récursivement. Ce cas spécifique de writeTree() n'était pas testé précédemment.
 
@@ -123,7 +123,7 @@ Teste la branche de writeTree(TreeNode) quand delegateCopyMethods est vrai. Cett
 
 ## writeTree(TreeNode)
 
-[Lien du test - Ligne 681](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 681](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste la branche de writeTree(TreeNode) quand delegateCopyMethods est faux, le TreeNode n'est pas null et que l'ObjectCodec est null. Ce cas spécifique de writeTree() n'était pas testé précédemment.
 
@@ -139,7 +139,7 @@ Teste la branche de writeTree(TreeNode) quand delegateCopyMethods est faux, le T
 
 ## writeObject(Object)
 
-[Lien du test - Ligne 709](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 709](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste la branche de writeObject(Object) quand delegateCopyMethods est vrai. Cette branche utilise writeObject récursivement. Ce cas spécifique de la méthode n'était pas testé précédemment.
 
@@ -155,7 +155,7 @@ Teste la branche de writeObject(Object) quand delegateCopyMethods est vrai. Cett
 
 ## writeObject(Object)
 
-[Lien du test - Ligne 735](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 735](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste la branche de writeObject(Object) quand delegateCopyMethods est faux et (Object)pojo  est null. Ce cas spécifique de la méthode n'était pas testé précédemment.
 
@@ -171,7 +171,7 @@ Teste la branche de writeObject(Object) quand delegateCopyMethods est faux et (O
 
 ## writeNumber(char[], int, int)
 
-[Lien du test - Ligne 758](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 758](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste que l'overload sur la méthode writeNumber avec les paramètres char[], Int i et Int j, écris les j prochains charactères de l'array à partir de l'indice i comme un nombre.
 
@@ -187,7 +187,7 @@ Teste que l'overload sur la méthode writeNumber avec les paramètres char[], In
 
 ## writeBinary(Base64Variant, byte[], int, int)
 
-[Lien du test - Ligne 778](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 778](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste que l'overload sur la méthode writeBinary avec les paramètres avec les paramètres byte[], Int i et Int j, écris les j prochains bytes de l'array à partir de l'indice i dans la base passée en paramètre.
 
@@ -203,7 +203,7 @@ Teste que l'overload sur la méthode writeBinary avec les paramètres avec les p
 
 ## enable(JsonGeneratorFeature)
 
-[Lien du test - Ligne 800](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 800](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste que le feature activé par la fonction applique son effet sur le generator.
 
@@ -219,7 +219,7 @@ Teste que le feature activé par la fonction applique son effet sur le generator
 
 ## disable(JsonGeneratorFeature)
 
-[Lien du test - Ligne 821](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 821](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste qu'un feature activé par la fonction enable n'applique pas son effet sur le generator si on le disable().
 
@@ -235,7 +235,7 @@ Teste qu'un feature activé par la fonction enable n'applique pas son effet sur 
 
 ## useDefaultPrettyPrinter()
 
-[Lien du test - Ligne 844](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 844](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste que le PrettyPrinter de base applique ses effets sur le générateur lorsqu'on invoque la fonction useDefaultPrettyPrinter().
 
@@ -251,7 +251,7 @@ Teste que le PrettyPrinter de base applique ses effets sur le générateur lorsq
 
 ## setPrettyPrinter(PrettyPrinter)
 
-[Lien du test - Ligne 866](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 866](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste que le PrettyPrinter passé en paramètre applique ses effets sur le générateur.
 
@@ -267,7 +267,7 @@ Teste que le PrettyPrinter passé en paramètre applique ses effets sur le gén�
 
 ## overrideStdFeatures(int, int)
 
-[Lien du test - Ligne 893](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 893](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste que le premier feature passé en paramètre n'applique pas ses effets sur le generator, tandis que le deuxième si.
 
@@ -283,7 +283,7 @@ Teste que le premier feature passé en paramètre n'applique pas ses effets sur 
 
 ## overrideFormatFeatures(int, int)
 
-[Lien du test - Ligne 917](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 917](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste que le premier feature passé en paramètre n'applique pas ses effets sur le generator, tandis que le deuxième si.
 
@@ -299,7 +299,7 @@ Teste que le premier feature passé en paramètre n'applique pas ses effets sur 
 
 ## setFeatureMask(int)
 
-[Lien du test - Ligne 942](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 942](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste que le mask passé en paramètre applique son effet sur le generator.
 
@@ -315,7 +315,7 @@ Teste que le mask passé en paramètre applique son effet sur le generator.
 
 ## setCodec(ObjectCodec)
 
-[Lien du test - Ligne 967](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 967](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste que le coded passè en paramètre est bel et bien le codec du generator après invocation.
 
@@ -331,7 +331,7 @@ Teste que le coded passè en paramètre est bel et bien le codec du generator ap
 
 ## setHighestNonEscapedChar(int) ET getHighestEscapedChar()
 
-[Lien du test - Ligne 986](../../src/main/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
+[Lien du test - Ligne 986](../../src/test/java/com/fasterxml/jackson/core/util/DelegatesTest.java)
 
 Teste le getter et setter simultanément en comparant la valeur de l'attribut après le set et la valeur attendue.
 
