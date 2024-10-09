@@ -750,16 +750,11 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
         assertSame(pojo, codec.pojoWritten);
     }
 
-    //TODO IMPORTANT
     /*
-        Coverage did not improve enough, so let's write more tests!
+        11: Test writeNumber(char[], int, int):
 
-        The comments moving foward will be shorter.
-        All the upcoming tests test a method that was not previously tested.
-        I commented only the method we are targetting.
+        This override was not covered by previous tests.
     */
-
-    // writeNumber(char[], int, int)
     @Test
     void testWriteNumberFromCharArray() throws IOException {
         StringWriter sw = new StringWriter();
@@ -775,7 +770,11 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
         assertEquals("12345", sw.toString());
     }
 
-    // writeBinary(Base64Variant, byte[], int, int)
+    /*
+        12: Test writeBinary(Base64Variant, byte[], int, int):
+
+        This override was not covered by previous tests.
+    */
     @Test
     void testWriteBinary() throws IOException {
         StringWriter sw = new StringWriter();
@@ -793,7 +792,11 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
         assertEquals("[\"" + base64.encode(binaryData) + "\"]", sw.toString());
     }
 
-    // enable(JsonGenerator.Feature)
+    /*
+        13: Test enable(JsonGenerator.Feature):
+
+        This method handles logic and was not covered by previous tests.
+    */
     @Test
     void testEnableFeature() throws IOException {
         StringWriter sw = new StringWriter();
@@ -810,7 +813,11 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
         assertEquals("[\"12345\"]", sw.toString());
     }
 
-    // disable(JsonGenerator.Feature)
+    /*
+        14: Test disable(JsonGenerator.Feature):
+
+        This method handles logic and was not covered by previous tests.
+    */
     @Test
     void testDisableFeature() throws IOException {
         StringWriter sw = new StringWriter();
@@ -829,7 +836,11 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
         assertEquals("[12345]", sw.toString());
     }
 
-    // setDefaultPrettyPrinter()
+    /*
+        15: Test setDefaultPrettyPrinter():
+
+        This method handles logic and was not covered by previous tests.
+    */
     @Test
     void testUseDefaultPrettyPrinter() throws IOException {
         StringWriter sw = new StringWriter();
@@ -847,7 +858,11 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
         assertEquals("[ 12345 ]", sw.toString());
     }
 
-    // setPrettyPrinter()
+    /*
+        16: Test setPrettyPrinter():
+
+        This method handles logic and was not covered by previous tests.
+    */
     @Test
     void testSetPrettyPrinter() throws IOException {
         StringWriter sw = new StringWriter();
@@ -870,7 +885,11 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
         assertEquals("[ 12345 ]", sw2.toString());
     }
 
-    // overrideStdFeatures(int, int)
+    /*
+        17: Test overrideStdFeatures(int, int):
+
+        This method handles logic and was not covered by previous tests.
+    */
     @Test
     void testOverrideStdFeatures() throws IOException {
         StringWriter sw = new StringWriter();
@@ -890,7 +909,11 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
         assertEquals("[12345]", sw.toString());
     }
 
-    // overrideFormatFeatures(int, int)
+    /*
+        18: Test overrideStdFeatures(int, int):
+
+        This method handles logic and was not covered by previous tests.
+    */
     @Test
     void testOverrideFormatFeatures() throws IOException {
         StringWriter sw = new StringWriter();
@@ -910,7 +933,12 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
         assertEquals("{\"test\":123}", sw.toString());
     }
 
-    // setFeatureMask(int)
+    /*
+        19: Test setFeatureMask(featureMask)
+
+        Pretty trivial this tests a setter
+        Not a bad test to have per se
+    */
     @Test
     void testSetFeatureMask() throws IOException {
         StringWriter sw = new StringWriter();
@@ -930,7 +958,12 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
         assertEquals("[\"12345\"]", sw.toString());
     }
 
-    // setCodec(Codec)
+    /*
+        20: Test setCodec(Codec)
+
+        Pretty trivial this tests a setter
+        Not a bad test to have per se
+    */
     @Test
     void testSetCodec() throws IOException {
 
@@ -944,7 +977,12 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
         assertEquals(codec, del.getCodec());
     }
 
+    /*
+        21: Test setHighestNonEscapedChar(int) and getHighestEscapedChar()
 
+        Pretty trivial this tests a getter and a setter
+        Not a bad test to have per se
+    */
     @Test
     void testSetHighestNonEscapedChar() throws IOException {
         int highestChar = 1;
@@ -954,6 +992,6 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
 
         del.setHighestNonEscapedChar(highestChar);
 
-        assertEquals(highestChar, del.getHighestEscapedChar()); // Assuming you have a getHighestNonEscapedChar method.
+        assertEquals(highestChar, del.getHighestEscapedChar());
     }
 }
