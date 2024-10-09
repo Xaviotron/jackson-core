@@ -492,7 +492,7 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
     // Nos tests sont ci-dessous:
 
     /*
-        Test testWriteRawSlices():
+        1: Test testWriteRawSlices():
 
         Method overload for writeRaw with string slice
         that has 1 branch and is very simple,
@@ -519,7 +519,7 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
     }
 
     /*
-        Test testWriteRawCharArray():
+       2: Test testWriteRawCharArray():
 
         Method overload for writeRaw with charArray slice
         that has 1 branch and is very simple,
@@ -546,7 +546,7 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
     }
 
     /*
-        Test testWriteRawChar():
+        3: Test testWriteRawChar():
 
         Method overload for writeRaw with character
         that has 1 branch and is very simple,
@@ -571,7 +571,7 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
     }
 
     /*
-        Test testWriteRawValueString():
+        4: Test testWriteRawValueString():
 
         Method overload for writeRawValue with string slice
         that has 1 branch and is very simple,
@@ -598,7 +598,7 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
     }
 
     /*
-        Test testWriteRawValueCharArray():
+        5: Test testWriteRawValueCharArray():
 
         Method overload for writeRawValue with charArray slice
         that has 1 branch and is very simple,
@@ -625,7 +625,7 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
     }
 
     /*
-        Test branch of writeTree(TreenNode tree) where:
+        6: Test branch of writeTree(TreenNode tree) where:
 
         delegateCopyMethods is false
         tree is null
@@ -647,7 +647,7 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
     }
 
     /*
-        Test branch of writeTree(TreenNode tree) where:
+        7: Test branch of writeTree(TreenNode tree) where:
 
         delegateCopyMethods is true
 
@@ -669,7 +669,7 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
     }
 
     /*
-        Test branch of writeTree(TreeNode tree) where:
+        8: Test branch of writeTree(TreeNode tree) where:
 
         delegateCopyMethods is false
         tree is not null
@@ -699,7 +699,7 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
     }
 
     /*
-        Test branch of writeObject(Object pojo) where:
+        9: Test branch of writeObject(Object pojo) where:
 
         delegateCopyMethods is true
 
@@ -725,7 +725,7 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
     }
 
     /*
-        Test branch of writeObject(Object pojo) where:
+        10: Test branch of writeObject(Object pojo) where:
 
         delegateCopyMethods is false
         pojo is null
@@ -748,5 +748,162 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
 
         assertEquals("[null]", sw.toString());
         assertSame(pojo, codec.pojoWritten);
+    }
+
+    //TODO IMPORTANT
+    /*
+        Coverage did not improve enough, so let's write more tests!
+
+        The comments moving foward will be shorter.
+        All the upcoming tests test a method that was not previously tested.
+        I commented only the method we are targetting.
+    */
+
+    // writeNumber(char[], int, int)
+    @Test
+    void testWriteNumberFromCharArray() throws IOException {
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0, false);
+
+        del.writeStartArray();
+        char[] numArray = "12345".toCharArray();
+        g0.writeNumber(numArray, 0, numArray.length);
+        del.writeEndArray();
+        del.close();
+
+        assertEquals("[12345]", sw.toString());
+    }
+
+    // writeBinary(Base64Variant, byte[], int, int)
+    @Test
+    void testWriteBinary() throws IOException {
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0, false);
+
+        Base64Variant base64 = Base64Variants.MIME;
+        byte[] binaryData = {1, 2, 3, 4, 5};
+
+        del.writeStartArray();
+        del.writeBinary(base64, binaryData, 0, binaryData.length);
+        del.writeEndArray();
+        del.close();
+
+        assertEquals("[\"" + base64.encode(binaryData) + "\"]", sw.toString());
+    }
+
+    // enable(JsonGenerator.Feature)
+    @Test
+    void testEnableFeature() throws IOException {
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0, false);
+
+        del.enable(JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS);
+
+        del.writeStartArray();
+        del.writeNumber(12345);
+        del.writeEndArray();
+        del.close();
+
+        assertEquals("[\"12345\"]", sw.toString());
+    }
+
+    // disable(JsonGenerator.Feature)
+    @Test
+    void testDisableFeature() throws IOException {
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0, false);
+
+        // We know enable works (previous test) so we enable it then check if disable works
+        del.enable(JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS);
+        del.disable(JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS);
+
+        del.writeStartArray();
+        del.writeNumber(12345);
+        del.writeEndArray();
+        del.close();
+
+        assertEquals("[12345]", sw.toString());
+    }
+
+    // setPrettyPrinter(PrettyPrinter)
+    @Test
+    void testUseDefaultPrettyPrinter() throws IOException {
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0, false);
+
+        del.useDefaultPrettyPrinter();
+
+        del.writeStartArray();
+        del.writeNumber(12345);
+        del.writeEndArray();
+        del.close();
+
+        //All this does here is add whitespace
+        assertEquals("[ 12345 ]", sw.toString());
+    }
+
+    // overrideStdFeatures(int, int)
+    @Test
+    void testOverrideStdFeatures() throws IOException {
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0, false);
+
+        int newF = JsonGenerator.Feature.ESCAPE_NON_ASCII.getMask();
+        int override = JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS.getMask();
+
+        del.overrideStdFeatures(override, newF);
+
+        del.writeStartArray();
+        del.writeNumber(12345);
+        del.writeEndArray();
+        del.close();
+
+        assertEquals("[12345]", sw.toString());
+    }
+
+    // overrideFormatFeatures(int, int)
+    @Test
+    void testOverrideFormatFeatures() throws IOException {
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0, false);
+
+        int override = JsonGenerator.Feature.AUTO_CLOSE_JSON_CONTENT.getMask();
+        int newF = JsonGenerator.Feature.QUOTE_FIELD_NAMES.getMask();
+        del.overrideFormatFeatures(override, newF);
+
+        del.writeStartObject();
+        del.writeFieldName("test");
+        del.writeNumber(123);
+        del.writeEndObject();
+        del.close();
+
+        assertEquals("{\"test\":123}", sw.toString());
+    }
+
+    //setFeatureMask(int)
+    @Test
+    void testSetFeatureMask() throws IOException {
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0, false);
+
+        // Add the WRITE_NUMBERS_AS_STRINGS feature manually
+        // Copy its mask and set it as a feature
+        int featureMask = JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS.getMask();
+        del.setFeatureMask(featureMask);
+
+        del.writeStartArray();
+        del.writeNumber(12345);
+        del.writeEndArray();
+        del.close();
+
+        assertEquals("[\"12345\"]", sw.toString());
     }
 }
