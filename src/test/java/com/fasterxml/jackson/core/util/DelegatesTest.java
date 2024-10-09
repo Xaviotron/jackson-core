@@ -488,4 +488,265 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
         assertSame(tree, codec.treeWritten);
         assertSame(pojo, codec.pojoWritten);
     }
+
+    // Nos tests sont ci-dessous:
+
+    /*
+        Test testWriteRawSlices():
+
+        Method overload for writeRaw with string slice
+        that has 1 branch and is very simple,
+        but handles logic that if broken changes the expected
+        output of the method. Was not tested previously.
+    */
+    @Test
+    void testWriteRawSlices() throws IOException {
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0);
+
+        String text = "Hello, World!";
+        int offset = 7;
+        int len = 5;
+
+        del.writeRaw(text, offset, len);
+        del.flush();
+
+        assertEquals("World", sw.toString());
+
+        del.close();
+        g0.close();
+    }
+
+    /*
+        Test testWriteRawCharArray():
+
+        Method overload for writeRaw with charArray slice
+        that has 1 branch and is very simple,
+        but handles logic that if broken changes the expected
+        output of the method. Was not tested previously.
+    */
+    @Test
+    void testWriteRawCharArray() throws IOException {
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0);
+
+        char[] text = "Hello, World!".toCharArray();
+        int offset = 7;
+        int len = 5;
+
+        del.writeRaw(text, offset, len);
+        del.flush();
+
+        assertEquals("World", sw.toString());
+
+        del.close();
+        g0.close();
+    }
+
+    /*
+        Test testWriteRawChar():
+
+        Method overload for writeRaw with character
+        that has 1 branch and is very simple,
+        but handles logic that if broken changes the expected
+        output of the method. Was not tested previously.
+    */
+    @Test
+    void testWriteRawChar() throws IOException {
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0);
+
+        char c = 'A';
+
+        del.writeRaw(c);
+        del.flush();
+
+        assertEquals("A", sw.toString());
+
+        del.close();
+        g0.close();
+    }
+
+    /*
+        Test testWriteRawValueString():
+
+        Method overload for writeRawValue with string slice
+        that has 1 branch and is very simple,
+        but handles logic that if broken changes the expected
+        output of the method. Was not tested previously.
+    */
+    @Test
+    void testWriteRawValueString() throws IOException {
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0);
+
+        String text = "Hello, World!";
+        int offset = 7;
+        int len = 5;
+
+        del.writeRawValue(text, offset, len);
+        del.flush();
+
+        assertEquals("World", sw.toString());
+
+        del.close();
+        g0.close();
+    }
+
+    /*
+        Test testWriteRawValueCharArray():
+
+        Method overload for writeRawValue with charArray slice
+        that has 1 branch and is very simple,
+        but handles logic that if broken changes the expected
+        output of the method. Was not tested previously.
+    */
+    @Test
+    void testWriteRawValueCharArray() throws IOException {
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0);
+
+        char[] text = "Hello, World!".toCharArray();
+        int offset = 7;
+        int len = 5;
+
+        del.writeRawValue(text, offset, len);
+        del.flush();
+
+        assertEquals("World", sw.toString());
+
+        del.close();
+        g0.close();
+    }
+
+    /*
+        Test branch of writeTree(TreenNode tree) where:
+
+        delegateCopyMethods is false
+        tree is null
+
+        This branch was not covered by previous tests.
+    */
+    @Test
+    void writeTreeNullTest() throws IOException
+    {
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0, false);
+
+        TreeNode tree = null;
+        del.writeTree(tree);
+        del.close();
+
+        assertEquals("null", sw.toString());
+    }
+
+    /*
+        Test branch of writeTree(TreenNode tree) where:
+
+        delegateCopyMethods is true
+
+        This branch uses the wrtieTree method recursively and
+        was not covered by previous tests.
+    */
+    @Test
+    void writeTreeWithDelegateTest() throws IOException
+    {
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0);
+
+        TreeNode tree = null;
+        del.writeTree(tree);
+        del.close();
+
+        assertEquals("null", sw.toString());
+    }
+
+    /*
+        Test branch of writeTree(TreeNode tree) where:
+
+        delegateCopyMethods is false
+        tree is not null
+        ObjectCodec is null
+
+        This branch was not covered by previous tests,
+        and finally improves the method's branch covereage to 100%.
+    */
+    @Test
+    void writeTreeWithNullCodecTest() throws IOException
+    {
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        g0.setCodec(null);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0, false);
+
+        TreeNode tree = new BogusTree();
+
+        IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
+            del.writeTree(tree);
+        });
+
+        assertEquals("No ObjectCodec defined", thrown.getMessage());
+
+        del.close();
+
+    }
+
+    /*
+        Test branch of writeObject(Object pojo) where:
+
+        delegateCopyMethods is true
+
+        This branch uses the writeObject method recursively and
+        was not covered by previous tests.
+    */
+    @Test
+    void writeObjectWithDelegateTest() throws IOException
+    {
+        BogusCodec codec = new BogusCodec();
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        g0.setCodec(codec);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0);
+        del.writeStartArray();
+        POJO pojo = new POJO();
+        del.writeObject(pojo);
+        del.writeEndArray();
+        del.close();
+
+        assertEquals("[\"pojo\"]", sw.toString());
+        assertSame(pojo, codec.pojoWritten);
+    }
+
+    /*
+        Test branch of writeObject(Object pojo) where:
+
+        delegateCopyMethods is false
+        pojo is null
+
+        This branch was not covered by previous tests.
+    */
+    @Test
+    void writeObjectNullPojoTest() throws IOException
+    {
+        BogusCodec codec = new BogusCodec();
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        g0.setCodec(codec);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0, false);
+        del.writeStartArray();
+        POJO pojo = null;
+        del.writeObject(pojo);
+        del.writeEndArray();
+        del.close();
+
+        assertEquals("[null]", sw.toString());
+        assertSame(pojo, codec.pojoWritten);
+    }
 }
