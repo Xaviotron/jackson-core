@@ -764,15 +764,15 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
     void testWriteNumberFromCharArray() throws IOException {
         StringWriter sw = new StringWriter();
         JsonGenerator g0 = JSON_F.createGenerator(sw);
-        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0, false);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0);
 
-        del.writeStartArray();
         char[] numArray = "12345".toCharArray();
-        g0.writeNumber(numArray, 0, numArray.length);
-        del.writeEndArray();
+
+
+        del.writeNumber(numArray, 0, numArray.length);
         del.close();
 
-        assertEquals("[12345]", sw.toString());
+        assertEquals("12345", sw.toString());
     }
 
     // writeBinary(Base64Variant, byte[], int, int)
@@ -829,7 +829,7 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
         assertEquals("[12345]", sw.toString());
     }
 
-    // setPrettyPrinter(PrettyPrinter)
+    // setDefaultPrettyPrinter()
     @Test
     void testUseDefaultPrettyPrinter() throws IOException {
         StringWriter sw = new StringWriter();
@@ -845,6 +845,29 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
 
         //All this does here is add whitespace
         assertEquals("[ 12345 ]", sw.toString());
+    }
+
+    // setPrettyPrinter()
+    @Test
+    void testSetPrettyPrinter() throws IOException {
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0, false);
+
+        del.useDefaultPrettyPrinter();
+        PrettyPrinter pp = del.getPrettyPrinter();
+
+        StringWriter sw2 = new StringWriter();
+        JsonGenerator g1 = JSON_F.createGenerator(sw2);
+        JsonGeneratorDelegate del2 = new JsonGeneratorDelegate(g1, false);
+        del2.setPrettyPrinter(pp);
+
+        del2.writeStartArray();
+        del2.writeNumber(12345);
+        del2.writeEndArray();
+        del2.close();
+
+        assertEquals("[ 12345 ]", sw2.toString());
     }
 
     // overrideStdFeatures(int, int)
@@ -887,7 +910,7 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
         assertEquals("{\"test\":123}", sw.toString());
     }
 
-    //setFeatureMask(int)
+    // setFeatureMask(int)
     @Test
     void testSetFeatureMask() throws IOException {
         StringWriter sw = new StringWriter();
@@ -905,5 +928,32 @@ class DelegatesTest extends com.fasterxml.jackson.core.JUnit5TestBase
         del.close();
 
         assertEquals("[\"12345\"]", sw.toString());
+    }
+
+    // setCodec(Codec)
+    @Test
+    void testSetCodec() throws IOException {
+
+        BogusCodec codec = new BogusCodec();
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0, false);
+
+        del.setCodec(codec);
+
+        assertEquals(codec, del.getCodec());
+    }
+
+
+    @Test
+    void testSetHighestNonEscapedChar() throws IOException {
+        int highestChar = 1;
+        StringWriter sw = new StringWriter();
+        JsonGenerator g0 = JSON_F.createGenerator(sw);
+        JsonGeneratorDelegate del = new JsonGeneratorDelegate(g0, false);
+
+        del.setHighestNonEscapedChar(highestChar);
+
+        assertEquals(highestChar, del.getHighestEscapedChar()); // Assuming you have a getHighestNonEscapedChar method.
     }
 }
