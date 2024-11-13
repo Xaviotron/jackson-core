@@ -16,7 +16,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Run Maven tests
+      - name: Run Maven tests, get JaCoCo coverage and fail if coverage has not improved.
         run: |
           JVM_FLAGS=(
             "-Xms512m"
@@ -37,21 +37,14 @@ jobs:
               echo "Tests failed with JVM flag: $flag"
               exit 1
             fi
+          
+            coverage=$(python3 config/coverage.py target/site/jacoco/jacoco.csv)
+            echo "Coverage for flag $flag: $coverage%"
+          
+            if (( $(echo "$coverage - $threshold <= $epsilon" | bc -l) )); then
+              echo "Coverage has not improved for flag $flag."
+              exit 1
+            else
+              echo "New coverage for flag $flag: $coverage%"
+            fi
           done
-
-      - name: Get JaCoCo Coverage
-        id: coverage
-        run: |
-          coverage=$(python3 config/coverage.py target/site/jacoco/jacoco.csv) 
-          echo "COVERAGE=$coverage" >> $GITHUB_ENV
-
-      - name: Fail if coverage has not improved.
-        run: |
-          coverage=$COVERAGE
-          threshold=81.58
-          if (( $(echo "$coverage - $threshold <= 0.1" | bc -l) )); then
-            echo "Coverage has not improved."
-            exit 1
-          else
-            echo "New coverage: $coverage%"
-          fi
